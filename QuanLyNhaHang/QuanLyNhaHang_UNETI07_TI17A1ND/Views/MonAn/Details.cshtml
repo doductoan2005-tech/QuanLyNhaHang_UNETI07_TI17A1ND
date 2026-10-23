@@ -1,0 +1,18 @@
+@model MonAn
+@{
+    ViewData["Title"] = "Chi tiết món ăn";
+}
+<h3 class="section-title">Chi tiết món ăn</h3>
+<div class="card p-4 col-lg-7">
+    <div class="mb-4 text-center">
+        <img src="@Url.Action("Image", new { id = Model.MaMon })" alt="@Model.TenMon" class="detail-menu-image" />
+    </div>
+    <dl class="row mb-0">
+        <dt class="col-sm-3">Tên món</dt><dd class="col-sm-9">@Model.TenMon</dd>
+        <dt class="col-sm-3">Loại món</dt><dd class="col-sm-9">@Model.LoaiMon</dd>
+        <dt class="col-sm-3">Đơn giá</dt><dd class="col-sm-9">@Model.DonGia.ToString("N0") đ</dd>
+        <dt class="col-sm-3">Mô tả</dt><dd class="col-sm-9">@Model.MoTa</dd>
+        <dt class="col-sm-3">Trạng thái</dt><dd class="col-sm-9">@Model.TrangThai</dd>
+    </dl>
+</div>
+<a asp-action="Index" class="btn btn-outline-dark mt-3"><i class="bi bi-arrow-left me-1"></i>Quay lại</a>

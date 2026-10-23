@@ -1,0 +1,77 @@
+@{
+    ViewData["Title"] = "Trang chủ";
+    var maTaiKhoan = Context.Session.GetInt32(SessionKeys.MaTaiKhoan);
+}
+
+<div class="hero-restaurant mb-5">
+    <div class="row align-items-center position-relative">
+        <div class="col-lg-8">
+            <div class="eyebrow mb-2"><i class="bi bi-star-fill me-1"></i> Ẩm thực tinh tế &middot; Không gian ấm cúng</div>
+            <h1 class="mb-3">Chào mừng đến với<br />Tiệm Lẩu Zaku</h1>
+            <p class="lead mb-4">Đặt bàn nhanh chóng chỉ trong vài bước, thực đơn đa dạng được cập nhật liên tục,
+                đội ngũ phục vụ tận tâm mang đến trải nghiệm ẩm thực trọn vẹn cho bạn và gia đình.</p>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-gold btn-lg" asp-controller="BanAn" asp-action="Index"><i class="bi bi-calendar-check me-1"></i> Xem &amp; đặt bàn ngay</a>
+                <a class="btn btn-outline-cream btn-lg" asp-controller="MonAn" asp-action="Index"><i class="bi bi-journal-richtext me-1"></i> Khám phá thực đơn</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card-stat">
+            <div class="stat-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+            <h3>@ViewBag.SoBanAn</h3>
+            <p>Bàn ăn sẵn sàng phục vụ</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card-stat">
+            <div class="stat-icon"><i class="bi bi-egg-fried"></i></div>
+            <h3>@ViewBag.SoMonAn</h3>
+            <p>Món ăn trong thực đơn</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card-stat">
+            <div class="stat-icon"><i class="bi bi-tags-fill"></i></div>
+            <h3>@ViewBag.SoLoaiBan</h3>
+            <p>Loại bàn khác nhau</p>
+        </div>
+    </div>
+</div>
+
+<h3 class="section-title">Vì sao chọn chúng tôi?</h3>
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card-feature">
+            <div class="feature-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+            <h5>Đặt bàn tức thì</h5>
+            <p class="text-muted mb-0">Chọn bàn phù hợp, kiểm tra thời gian trống theo thời gian thực và nhận xác nhận nhanh chóng.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card-feature">
+            <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+            <h5>Quản lý minh bạch</h5>
+            <p class="text-muted mb-0">Theo dõi trạng thái phiếu đặt bàn từ chờ xác nhận đến hoàn tất, không lo trùng lịch.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card-feature">
+            <div class="feature-icon"><i class="bi bi-heart-fill"></i></div>
+            <h5>Trải nghiệm tận tâm</h5>
+            <p class="text-muted mb-0">Thực đơn phong phú, không gian đa dạng từ bàn thường đến phòng VIP, sân vườn.</p>
+        </div>
+    </div>
+</div>
+
+@if (maTaiKhoan == null)
+{
+    <div class="hero-restaurant text-center py-4">
+        <h4 class="text-white mb-2">Sẵn sàng cho bữa ăn tiếp theo của bạn?</h4>
+        <p class="mb-3" style="color:rgba(255,255,255,0.85)">Tạo tài khoản chỉ trong 1 phút để bắt đầu đặt bàn.</p>
+        <a class="btn btn-gold" asp-controller="TaiKhoan" asp-action="DangKy"><i class="bi bi-person-plus-fill me-1"></i> Đăng ký ngay</a>
+    </div>
+}

@@ -1,0 +1,20 @@
+@model KhachHang
+@{ ViewData["Title"] = "Thông tin cá nhân"; }
+<h3 class="section-title">Thông tin cá nhân</h3>
+<div class="card p-4 col-lg-7">
+    <div class="d-flex align-items-center gap-3 mb-4">
+        <div class="stat-icon" style="width:60px;height:60px;font-size:1.8rem;"><i class="bi bi-person-fill"></i></div>
+        <div>
+            <h5 class="mb-0">@Model.HoTen</h5>
+            <span class="text-muted small">Thành viên từ @Model.NgayDangKy.ToString("dd/MM/yyyy")</span>
+        </div>
+    </div>
+    <dl class="row mb-0">
+        <dt class="col-sm-3">Ngày sinh</dt><dd class="col-sm-9">@Model.NgaySinh.ToString("dd/MM/yyyy")</dd>
+        <dt class="col-sm-3">Giới tính</dt><dd class="col-sm-9">@Model.GioiTinh</dd>
+        <dt class="col-sm-3">Số điện thoại</dt><dd class="col-sm-9">@Model.SoDienThoai</dd>
+        <dt class="col-sm-3">Email</dt><dd class="col-sm-9">@Model.Email</dd>
+        <dt class="col-sm-3">Địa chỉ</dt><dd class="col-sm-9">@Model.DiaChi</dd>
+    </dl>
+</div>
+<a class="btn btn-gold mt-3" asp-action="SuaThongTin"><i class="bi bi-pencil-square me-1"></i>Cập nhật thông tin</a>
