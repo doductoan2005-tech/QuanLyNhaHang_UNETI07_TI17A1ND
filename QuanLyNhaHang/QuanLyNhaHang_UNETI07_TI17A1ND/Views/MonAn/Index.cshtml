@@ -1,0 +1,125 @@
+@model List<MonAn>
+@{
+    ViewData["Title"] = "Thực đơn";
+    var laAdmin = Context.Session.GetString(SessionKeys.VaiTro) == VaiTro.Admin.ToString();
+    var nhomMon = Model.GroupBy(m => m.LoaiMon).ToList();
+
+    string IconLoaiMon(string loai) => loai switch
+    {
+        var t when t.Contains("Khai vị") => "bi-egg-fried",
+        var t when t.Contains("chính") => "bi-fire",
+        var t when t.Contains("xào") => "bi-fire",
+        var t when t.Contains("Tráng miệng") => "bi-cake2",
+        var t when t.Contains("uống") => "bi-cup-straw",
+        _ => "bi-egg-fried"
+    };
+
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+        <h3 class="section-title mb-0">Thực đơn nhà hàng</h3>
+        <p class="text-muted mb-0">Hương vị tinh tế trong từng món ăn</p>
+    </div>
+    @if (laAdmin)
+    {
+        <a class="btn btn-gold" asp-action="Create"><i class="bi bi-plus-circle me-1"></i> Thêm món ăn</a>
+    }
+</div>
+
+@if (nhomMon.Any())
+{
+    <ul class="nav menu-pill-nav mb-4 flex-wrap" id="menuTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-all" type="button">Tất cả</button>
+        </li>
+        @foreach (var nhom in nhomMon)
+        {
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-@nhom.Key.GetHashCode().ToString().Replace("-","n")" type="button">@nhom.Key</button>
+            </li>
+        }
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="tab-all">
+            @foreach (var nhom in nhomMon)
+            {
+                <h5 class="mt-2 mb-3"><i class="bi @IconLoaiMon(nhom.Key) me-2"></i>@nhom.Key</h5>
+                <div class="row g-3 mb-4">
+                @foreach (var mon in nhom)
+                {
+                    <div class="col-md-4">
+                        <div class="menu-card">
+                                <div class="menu-thumb">
+                                    <img src="@Url.Action("Image", new { id = mon.MaMon })" alt="@mon.TenMon" />
+                                </div>
+                            <div class="menu-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <h6 class="mb-1">@mon.TenMon</h6>
+                                    @if (laAdmin)
+                                    {
+                                        <span class="badge @(mon.TrangThai == TrangThaiMon.DangPhucVu ? "badge-soft-success" : "badge-soft-danger")">@mon.TrangThai</span>
+                                    }
+                                </div>
+                                <p class="menu-price mb-1">@mon.DonGia.ToString("N0") đ</p>
+                                <p class="text-muted small mb-2" style="min-height: 2.4em;">@mon.MoTa</p>
+                                @if (laAdmin)
+                                {
+                                    <div class="d-flex gap-2">
+                                        <a class="btn btn-sm btn-outline-dark" asp-action="Edit" asp-route-id="@mon.MaMon"><i class="bi bi-pencil"></i></a>
+                                        <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@mon.MaMon"><i class="bi bi-trash"></i></a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+                </div>
+            }
+        </div>
+
+        @foreach (var nhom in nhomMon)
+        {
+            <div class="tab-pane fade" id="tab-@nhom.Key.GetHashCode().ToString().Replace("-","n")">
+                <div class="row g-3 mb-4">
+                @foreach (var mon in nhom)
+                {
+                    <div class="col-md-4">
+                        <div class="menu-card">
+                            <div class="menu-thumb">
+                                <img src="@Url.Action("Image", new { id = mon.MaMon })" alt="@mon.TenMon" />
+                            </div>
+                            <div class="menu-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <h6 class="mb-1">@mon.TenMon</h6>
+                                    @if (laAdmin)
+                                    {
+                                        <span class="badge @(mon.TrangThai == TrangThaiMon.DangPhucVu ? "badge-soft-success" : "badge-soft-danger")">@mon.TrangThai</span>
+                                    }
+                                </div>
+                                <p class="menu-price mb-1">@mon.DonGia.ToString("N0") đ</p>
+                                <p class="text-muted small mb-2" style="min-height: 2.4em;">@mon.MoTa</p>
+                                @if (laAdmin)
+                                {
+                                    <div class="d-flex gap-2">
+                                        <a class="btn btn-sm btn-outline-dark" asp-action="Edit" asp-route-id="@mon.MaMon"><i class="bi bi-pencil"></i></a>
+                                        <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@mon.MaMon"><i class="bi bi-trash"></i></a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="empty-state">
+        <i class="bi bi-journal-x"></i>
+        <h5>Thực đơn hiện chưa có món ăn nào</h5>
+    </div>
+}
