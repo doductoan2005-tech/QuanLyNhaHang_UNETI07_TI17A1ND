@@ -1,0 +1,65 @@
+@* Họ và tên : VU CONG VINH
+   Mã sinh viên : 23203100012
+   Nội dung thực hiện: Danh sách, tìm kiếm, khóa/mở khóa tài khoản *@
+@model List<TaiKhoan>
+@{
+    ViewData["Title"] = "Quản lý tài khoản";
+    var maDangNhap = ViewBag.MaDangNhap as int?;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="section-title mb-0">Quản lý tài khoản</h3>
+        <p class="text-muted mb-0">Tài khoản Admin và khách hàng</p>
+    </div>
+    <a class="btn btn-gold" asp-action="Create"><i class="bi bi-plus-circle me-1"></i> Thêm tài khoản Admin</a>
+</div>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-5"><input name="tuKhoa" value="@ViewBag.TuKhoa" class="form-control" placeholder="Tìm theo tên đăng nhập, họ tên, email" /></div>
+    <div class="col-md-3">
+        <select name="vaiTro" class="form-select">
+            <option value="">-- Tất cả vai trò --</option>
+            <option value="Admin" selected="@(ViewBag.VaiTro == VaiTro.Admin)">Admin</option>
+            <option value="KhachHang" selected="@(ViewBag.VaiTro == VaiTro.KhachHang)">Khách hàng</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <button class="btn btn-dark" type="submit"><i class="bi bi-search me-1"></i>Tìm</button>
+        <a class="btn btn-outline-dark" asp-action="Index">Xóa lọc</a>
+    </div>
+</form>
+
+<div class="table-responsive">
+<table class="table table-elegant">
+    <thead><tr><th>#</th><th>Tên đăng nhập</th><th>Họ tên</th><th>Email</th><th>Vai trò</th><th>Trạng thái</th><th class="text-end">Thao tác</th></tr></thead>
+    <tbody>
+    @foreach (var t in Model)
+    {
+        <tr>
+            <td>@t.MaTaiKhoan</td>
+            <td class="fw-semibold">@t.TenDangNhap</td>
+            <td>@t.HoTen</td>
+            <td>@t.Email</td>
+            <td>@(t.VaiTro == VaiTro.Admin ? "Admin" : "Khách hàng")</td>
+            <td>
+                <form asp-action="ToggleTrangThai" asp-route-id="@t.MaTaiKhoan" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-sm @(t.TrangThai ? "badge-soft-success" : "badge-soft-danger") border-0" disabled="@(t.MaTaiKhoan == maDangNhap)">
+                        <i class="bi @(t.TrangThai ? "bi-check-circle-fill" : "bi-lock-fill") me-1"></i>@(t.TrangThai ? "Hoạt động" : "Bị khóa")
+                    </button>
+                </form>
+            </td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-dark" asp-action="Details" asp-route-id="@t.MaTaiKhoan"><i class="bi bi-eye"></i></a>
+                <a class="btn btn-sm btn-outline-dark" asp-action="Edit" asp-route-id="@t.MaTaiKhoan"><i class="bi bi-pencil"></i></a>
+                <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@t.MaTaiKhoan"><i class="bi bi-trash"></i></a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+</div>
+@if (!Model.Any())
+{
+    <div class="empty-state"><i class="bi bi-search"></i><p class="text-muted">Không tìm thấy tài khoản phù hợp.</p></div>
+}

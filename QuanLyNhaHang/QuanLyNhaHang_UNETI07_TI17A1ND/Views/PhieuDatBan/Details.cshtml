@@ -1,0 +1,25 @@
+@model PhieuDatBan
+@{
+    ViewData["Title"] = "Chi tiết phiếu đặt bàn";
+    string BadgeTt(TrangThaiPhieu tt) => tt switch
+    {
+        TrangThaiPhieu.ChoXacNhan => "badge-soft-warning",
+        TrangThaiPhieu.DaXacNhan => "badge-soft-info",
+        TrangThaiPhieu.DaSuDung => "badge-soft-success",
+        _ => "badge-soft-danger"
+    };
+}
+<h3 class="section-title">Chi tiết phiếu đặt bàn #@Model.MaPhieu</h3>
+<div class="card p-4 col-lg-8">
+    <div class="mb-3"><span class="badge @BadgeTt(Model.TrangThai) fs-6">@Model.TrangThai</span></div>
+    <dl class="row mb-0">
+        <dt class="col-sm-3">Khách hàng</dt><dd class="col-sm-9">@Model.KhachHang?.HoTen</dd>
+        <dt class="col-sm-3">Bàn ăn</dt><dd class="col-sm-9">@Model.BanAn?.TenBan (@Model.BanAn?.LoaiBan?.TenLoaiBan)</dd>
+        <dt class="col-sm-3">Ngày đặt</dt><dd class="col-sm-9">@Model.NgayDat.ToString("dd/MM/yyyy HH:mm")</dd>
+        <dt class="col-sm-3">Ngày sử dụng</dt><dd class="col-sm-9">@Model.NgaySuDung.ToString("dd/MM/yyyy")</dd>
+        <dt class="col-sm-3">Giờ</dt><dd class="col-sm-9">@Model.GioBatDau.ToString(@"hh\:mm") - @Model.GioKetThuc.ToString(@"hh\:mm")</dd>
+        <dt class="col-sm-3">Số người</dt><dd class="col-sm-9">@Model.SoNguoi</dd>
+        <dt class="col-sm-3">Ghi chú</dt><dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.GhiChu) ? "(không có)" : Model.GhiChu)</dd>
+    </dl>
+</div>
+<a asp-action="LichSu" class="btn btn-outline-dark mt-3"><i class="bi bi-arrow-left me-1"></i>Quay lại</a>

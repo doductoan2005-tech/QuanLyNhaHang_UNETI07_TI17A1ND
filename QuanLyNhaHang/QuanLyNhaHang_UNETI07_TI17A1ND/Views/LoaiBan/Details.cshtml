@@ -1,0 +1,11 @@
+@model LoaiBan
+@{ ViewData["Title"] = "Chi tiết loại bàn"; }
+<h3 class="section-title">Chi tiết loại bàn</h3>
+<div class="card p-4 col-lg-7">
+    <dl class="row mb-0">
+        <dt class="col-sm-3">Tên loại bàn</dt><dd class="col-sm-9">@Model.TenLoaiBan</dd>
+        <dt class="col-sm-3">Mô tả</dt><dd class="col-sm-9">@Model.MoTa</dd>
+        <dt class="col-sm-3">Trạng thái</dt><dd class="col-sm-9"><span class="badge @(Model.TrangThai ? "badge-soft-success" : "badge-soft-danger")">@(Model.TrangThai ? "Hoạt động" : "Ngừng")</span></dd>
+    </dl>
+</div>
+<a asp-action="Index" class="btn btn-outline-dark mt-3"><i class="bi bi-arrow-left me-1"></i>Quay lại</a>

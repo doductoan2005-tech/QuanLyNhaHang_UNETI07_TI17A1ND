@@ -1,0 +1,42 @@
+@model MonAn
+@{ ViewData["Title"] = "Sửa món ăn"; }
+<h3 class="section-title">Sửa món ăn</h3>
+<div class="card p-4 col-lg-7">
+    <form asp-action="Edit" asp-route-id="@Model.MaMon" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="MaMon" />
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="mb-3"><label asp-for="TenMon" class="form-label"></label><input asp-for="TenMon" class="form-control" /><span asp-validation-for="TenMon" class="text-danger"></span></div>
+        <div class="mb-3"><label asp-for="LoaiMon" class="form-label"></label><input asp-for="LoaiMon" class="form-control" /><span asp-validation-for="LoaiMon" class="text-danger"></span></div>
+        <div class="mb-3">
+            <label for="anhMonFile" class="form-label">Ảnh món ăn</label>
+            <div class="mb-2">
+                <img id="anhMonPreview" src="@Url.Action("Image", new { id = Model.MaMon })" alt="Ảnh hiện tại của @Model.TenMon" style="width:180px; height:140px; object-fit:cover; border-radius:8px;" />
+            </div>
+            <input id="anhMonFile" name="anhMonFile" type="file" class="form-control" accept=".jpg,.jpeg,.png,.webp" />
+            <small class="text-muted">Chọn ảnh mới để thay ảnh hiện tại. JPG, PNG hoặc WebP; tối đa 5 MB.</small>
+            <div><span class="text-danger">@Html.ValidationMessage("AnhMonFile")</span></div>
+            @if (Model.AnhMon != null && Model.AnhMon.Length > 0)
+            {
+                <div class="form-check mt-2">
+                    <input id="xoaAnh" name="xoaAnh" type="checkbox" value="true" class="form-check-input" />
+                    <label for="xoaAnh" class="form-check-label">Xóa ảnh món ăn hiện tại</label>
+                </div>
+            }
+        </div>
+        <div class="mb-3"><label asp-for="DonGia" class="form-label"></label>
+            <div class="input-group"><input asp-for="DonGia" type="number" step="1000" class="form-control" /><span class="input-group-text">đ</span></div>
+            <span asp-validation-for="DonGia" class="text-danger"></span>
+        </div>
+        <div class="mb-3"><label asp-for="MoTa" class="form-label"></label><textarea asp-for="MoTa" class="form-control" rows="3"></textarea></div>
+        <div class="mb-4"><label asp-for="TrangThai" class="form-label"></label><select asp-for="TrangThai" asp-items="Html.GetEnumSelectList<TrangThaiMon>()" class="form-select"></select></div>
+        <button type="submit" class="btn btn-dark"><i class="bi bi-check-lg me-1"></i>Cập nhật</button>
+        <a asp-action="Index" class="btn btn-outline-dark">Hủy</a>
+    </form>
+</div>
+<script>
+    document.getElementById('anhMonFile').addEventListener('change', function () {
+        const preview = document.getElementById('anhMonPreview');
+        const file = this.files[0];
+        if (file) preview.src = URL.createObjectURL(file);
+    });
+</script>
