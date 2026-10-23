@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Tiệm Lẩu Zaku</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍽️</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    @{
+        var maTaiKhoan = Context.Session.GetInt32(SessionKeys.MaTaiKhoan);
+        var hoTen = Context.Session.GetString(SessionKeys.HoTen);
+        var vaiTro = Context.Session.GetString(SessionKeys.VaiTro);
+        var laAdmin = vaiTro == VaiTro.Admin.ToString();
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        string NavActive(params string[] controllers) => controllers.Contains(currentController) ? "active" : "";
+    }
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-restaurant sticky-top">
+        <div class="container">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <img src="~/images/logo-zaku.png" alt="Tiệm Lẩu Zaku" class="brand-logo" />
+                <span>Tiệm Lẩu Zaku</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link @NavActive("Home")" asp-controller="Home" asp-action="Index"><i class="bi bi-house-door me-1"></i>Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link @NavActive("MonAn")" asp-controller="MonAn" asp-action="Index"><i class="bi bi-journal-richtext me-1"></i>Thực đơn</a></li>
+                    <li class="nav-item"><a class="nav-link @NavActive("BanAn")" asp-controller="BanAn" asp-action="Index"><i class="bi bi-grid-3x3-gap me-1"></i>Danh sách bàn</a></li>
+
+                    @if (maTaiKhoan != null && !laAdmin)
+                    {
+                        <li class="nav-item"><a class="nav-link @NavActive("PhieuDatBan")" asp-controller="PhieuDatBan" asp-action="LichSu"><i class="bi bi-journal-check me-1"></i>Phiếu đặt bàn</a></li>
+                        <li class="nav-item"><a class="nav-link @NavActive("KhachHang")" asp-controller="KhachHang" asp-action="ThongTinCaNhan"><i class="bi bi-person-circle me-1"></i>Cá nhân</a></li>
+                    }
+
+                    @if (laAdmin)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle                             @NavActive("ThongKe","LoaiBan","KhachHang","PhieuDatBan","QuanLyTaiKhoan")" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-speedometer2 me-1"></i>Quản trị
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="ThongKe" asp-action="Index"><i class="bi bi-bar-chart-line me-2"></i>Dashboard &amp; Thống kê</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" asp-controller="QuanLyTaiKhoan" asp-action="Index"><i class="bi bi-person-gear me-2"></i>Quản lý tài khoản</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" asp-controller="LoaiBan" asp-action="Index"><i class="bi bi-tags me-2"></i>Quản lý loại bàn</a></li>
+                                <li><a class="dropdown-item" asp-controller="BanAn" asp-action="Index"><i class="bi bi-grid-3x3-gap me-2"></i>Quản lý bàn ăn</a></li>
+                                <li><a class="dropdown-item" asp-controller="MonAn" asp-action="Index"><i class="bi bi-journal-richtext me-2"></i>Quản lý món ăn</a></li>
+                                <li><a class="dropdown-item" asp-controller="KhachHang" asp-action="Index"><i class="bi bi-people me-2"></i>Quản lý khách hàng</a></li>
+                                <li><a class="dropdown-item" asp-controller="PhieuDatBan" asp-action="Index"><i class="bi bi-journal-check me-2"></i>Quản lý phiếu đặt bàn</a></li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+                <ul class="navbar-nav align-items-lg-center">
+                    @if (maTaiKhoan == null)
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="TaiKhoan" asp-action="Login"><i class="bi bi-box-arrow-in-right me-1"></i>Đăng nhập</a></li>
+                        <li class="nav-item"><a class="btn btn-gold btn-sm ms-lg-2" asp-controller="TaiKhoan" asp-action="DangKy">Đăng ký</a></li>
+                    }
+                    else
+                    {
+                        <li class="nav-item"><span class="badge-role me-lg-2 d-inline-block mb-2 mb-lg-0"><i class="bi bi-person-fill me-1"></i>@hoTen</span></li>
+                        <li class="nav-item">
+                            <form asp-controller="TaiKhoan" asp-action="Logout" method="post" class="d-inline">
+                                <button type="submit" class="nav-link border-0 bg-transparent"><i class="bi bi-box-arrow-right me-1"></i>Đăng xuất</button>
+                            </form>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        @if (TempData["ThongBao"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i> @TempData["ThongBao"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+        @if (TempData["Loi"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["Loi"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+        @RenderBody()
+    </div>
+
+    <footer class="footer-restaurant py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="text-white"><i class="bi bi-cup-hot-fill me-1"></i> Tiệm Lẩu Zaku</h5>
+                    <p class="small mb-0">Hệ thống quản lý nhà hàng &amp; đặt bàn — ASP.NET Core 10 MVC, EF Core 10, SQL Server.</p>
+                </div>
+                <div class="col-md-6 text-md-end small">
+                    <p class="mb-0">&copy; 2026 QuanLyNhaHang_UNETI07_TI17A1HN</p>
+                    <p class="mb-0">Bài tập lớn môn Thực hành lập trình .NET</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

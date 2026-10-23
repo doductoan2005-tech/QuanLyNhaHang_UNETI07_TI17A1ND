@@ -1,0 +1,15 @@
+@model LoaiBan
+@{ ViewData["Title"] = "Xóa loại bàn"; }
+<h3 class="section-title text-danger">Xóa loại bàn</h3>
+<div class="card p-4 col-lg-7">
+    @if (ViewBag.ConLienKet == true)
+    {
+        <div class="alert alert-danger"><i class="bi bi-exclamation-triangle-fill me-1"></i>Không thể xóa: vẫn còn bàn ăn thuộc loại bàn này.</div>
+    }
+    <p>Bạn có chắc chắn muốn xóa loại bàn <b>@Model.TenLoaiBan</b> không?</p>
+    <form asp-action="Delete" asp-route-id="@Model.MaLoaiBan" method="post">
+        <input type="hidden" asp-for="MaLoaiBan" />
+        <button type="submit" class="btn btn-danger" @(ViewBag.ConLienKet == true ? "disabled" : "")><i class="bi bi-trash me-1"></i>Xác nhận xóa</button>
+        <a asp-action="Index" class="btn btn-outline-dark">Hủy</a>
+    </form>
+</div>

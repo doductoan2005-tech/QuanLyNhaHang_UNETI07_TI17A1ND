@@ -1,0 +1,60 @@
+@model List<PhieuDatBan>
+@{
+    ViewData["Title"] = "Phiếu đặt bàn của tôi";
+    string BadgeTt(TrangThaiPhieu tt) => tt switch
+    {
+        TrangThaiPhieu.ChoXacNhan => "badge-soft-warning",
+        TrangThaiPhieu.DaXacNhan => "badge-soft-info",
+        TrangThaiPhieu.DaSuDung => "badge-soft-success",
+        _ => "badge-soft-danger"
+    };
+    string IconTt(TrangThaiPhieu tt) => tt switch
+    {
+        TrangThaiPhieu.ChoXacNhan => "bi-hourglass-split",
+        TrangThaiPhieu.DaXacNhan => "bi-check-circle-fill",
+        TrangThaiPhieu.DaSuDung => "bi-flag-fill",
+        _ => "bi-x-circle-fill"
+    };
+}
+<h3 class="section-title mb-0">Phiếu đặt bàn của tôi</h3>
+<p class="text-muted">Theo dõi trạng thái các lượt đặt bàn của bạn</p>
+
+<div class="mb-4 d-flex flex-wrap gap-2">
+    <a class="btn btn-sm @(ViewBag.TrangThaiLoc == null ? "btn-dark" : "btn-outline-dark")" asp-action="LichSu">Tất cả</a>
+    @foreach (var tt in Enum.GetValues<TrangThaiPhieu>())
+    {
+        <a class="btn btn-sm @(ViewBag.TrangThaiLoc?.Equals(tt) == true ? "btn-dark" : "btn-outline-dark")"
+           asp-action="LichSu" asp-route-trangThai="@tt"><i class="bi @IconTt(tt) me-1"></i>@tt</a>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="empty-state">
+        <i class="bi bi-calendar-x"></i>
+        <h5>Bạn chưa có phiếu đặt bàn nào</h5>
+        <a class="btn btn-gold mt-2" asp-controller="BanAn" asp-action="Index"><i class="bi bi-calendar-plus me-1"></i>Đặt bàn ngay</a>
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+    <table class="table table-elegant">
+        <thead><tr><th>Mã phiếu</th><th>Bàn</th><th>Ngày sử dụng</th><th>Giờ</th><th>Số người</th><th>Trạng thái</th><th class="text-end">Thao tác</th></tr></thead>
+        <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>#@p.MaPhieu</td>
+                <td class="fw-semibold">@p.BanAn?.TenBan</td>
+                <td>@p.NgaySuDung.ToString("dd/MM/yyyy")</td>
+                <td>@p.GioBatDau.ToString(@"hh\:mm") - @p.GioKetThuc.ToString(@"hh\:mm")</td>
+                <td>@p.SoNguoi</td>
+                <td><span class="badge @BadgeTt(p.TrangThai)"><i class="bi @IconTt(p.TrangThai) me-1"></i>@p.TrangThai</span></td>
+                <td class="text-end"><a class="btn btn-sm btn-outline-dark" asp-action="Details" asp-route-id="@p.MaPhieu"><i class="bi bi-eye"></i> Chi tiết</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    </div>
+}

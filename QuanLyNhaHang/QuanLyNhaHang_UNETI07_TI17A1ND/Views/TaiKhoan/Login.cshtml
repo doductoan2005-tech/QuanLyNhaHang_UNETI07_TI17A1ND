@@ -1,0 +1,61 @@
+@model LoginVM
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <div class="auth-panel row g-0">
+            <div class="col-md-5 d-none d-md-block">
+                <div class="auth-side">
+                    <i class="bi bi-cup-hot-fill"></i>
+                    <h3 class="text-white">Chào mừng trở lại!</h3>
+                    <p style="color: rgba(255,255,255,0.85)">Đăng nhập để đặt bàn, theo dõi lịch sử đặt chỗ và quản lý thông tin cá nhân của bạn.</p>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="p-4 p-md-5">
+                    <h3 class="mb-1">Đăng nhập</h3>
+                    <p class="text-muted mb-4">Nhập thông tin tài khoản của bạn</p>
+                    @if (!string.IsNullOrWhiteSpace(ViewBag.ThongBao as string))
+                    {
+                        <div class="alert alert-warning d-flex align-items-center mb-4">
+                            <i class="bi bi-exclamation-circle-fill me-2"></i> @ViewBag.ThongBao
+                        </div>
+                    }
+                    <form asp-action="Login" method="post">
+                        <input type="hidden" asp-for="ReturnUrl" />
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="TenDangNhap" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="bi bi-person"></i></span>
+                                <input asp-for="TenDangNhap" class="form-control" placeholder="Nhập tên đăng nhập" />
+                            </div>
+                            <span asp-validation-for="TenDangNhap" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="MatKhau" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="bi bi-lock"></i></span>
+                                <input asp-for="MatKhau" class="form-control" placeholder="Nhập mật khẩu" />
+                            </div>
+                            <span asp-validation-for="MatKhau" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100"><i class="bi bi-box-arrow-in-right me-1"></i> Đăng nhập</button>
+                    </form>
+                    <p class="mt-4 text-center text-muted">Chưa có tài khoản? <a asp-action="DangKy" class="fw-semibold">Đăng ký ngay</a></p>
+                    <div class="chip d-block text-center mt-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@4.0.0/dist/jquery.validate.unobtrusive.min.js"></script>
+}
