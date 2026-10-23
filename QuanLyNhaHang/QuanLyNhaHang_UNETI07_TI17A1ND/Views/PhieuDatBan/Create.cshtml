@@ -1,0 +1,61 @@
+@model DatBanVM
+@{ ViewData["Title"] = "Đặt bàn"; }
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="text-center mb-4">
+            <div class="stat-icon mx-auto" style="width:60px;height:60px;font-size:1.8rem;"><i class="bi bi-calendar-plus"></i></div>
+            <h3 class="section-title d-inline-block mt-2">Đặt bàn</h3>
+            <p class="text-muted">Điền thông tin bên dưới, chúng tôi sẽ xác nhận trong thời gian sớm nhất</p>
+        </div>
+        <div class="card p-4 p-md-5">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                <div class="mb-3">
+                    <label asp-for="MaBan" class="form-label"><i class="bi bi-grid-3x3-gap me-1"></i>Chọn bàn</label>
+                    <select asp-for="MaBan" class="form-select"
+                            asp-items="@(new SelectList(Model.DanhSachBan, "MaBan", "TenBan"))">
+                        <option value="">-- Chọn bàn --</option>
+                    </select>
+                    <span asp-validation-for="MaBan" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="NgaySuDung" class="form-label"><i class="bi bi-calendar-event me-1"></i></label>
+                        <input asp-for="NgaySuDung" type="date" class="form-control" />
+                        <span asp-validation-for="NgaySuDung" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="SoNguoi" class="form-label"><i class="bi bi-people me-1"></i></label>
+                        <input asp-for="SoNguoi" type="number" class="form-control" />
+                        <span asp-validation-for="SoNguoi" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="GioBatDau" class="form-label"><i class="bi bi-clock me-1"></i></label>
+                        <input asp-for="GioBatDau" type="time" class="form-control" />
+                        <span asp-validation-for="GioBatDau" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="GioKetThuc" class="form-label"><i class="bi bi-clock-history me-1"></i></label>
+                        <input asp-for="GioKetThuc" type="time" class="form-control" />
+                        <span asp-validation-for="GioKetThuc" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label asp-for="GhiChu" class="form-label"><i class="bi bi-chat-left-text me-1"></i></label>
+                    <textarea asp-for="GhiChu" class="form-control" rows="3" placeholder="VD: Bàn gần cửa sổ, có trẻ nhỏ..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-gold w-100"><i class="bi bi-check-circle me-1"></i> Xác nhận đặt bàn</button>
+                <a asp-controller="BanAn" asp-action="Index" class="btn btn-outline-dark w-100 mt-2">Hủy</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@4.0.0/dist/jquery.validate.unobtrusive.min.js"></script>
+}

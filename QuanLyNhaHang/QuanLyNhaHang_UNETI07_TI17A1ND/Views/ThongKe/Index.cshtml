@@ -1,0 +1,180 @@
+@model DashboardVM
+@{ ViewData["Title"] = "Dashboard & Thống kê"; }
+
+<div class="mb-4">
+    <h3 class="section-title mb-0">Dashboard tổng quan</h3>
+    <p class="text-muted mb-0">Theo dõi hoạt động nhà hàng theo thời gian thực</p>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3 col-6">
+        <div class="card-stat">
+            <div class="stat-icon"><i class="bi bi-tags-fill"></i></div>
+            <h3>@Model.TongSoLoaiBan</h3><p>Loại bàn</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card-stat">
+            <div class="stat-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+            <h3>@Model.TongSoBanAn</h3><p>Bàn ăn</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card-stat">
+            <div class="stat-icon"><i class="bi bi-egg-fried"></i></div>
+            <h3>@Model.TongSoMonAn</h3><p>Món ăn</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card-stat">
+            <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+            <h3>@Model.TongSoKhachHang</h3><p>Khách hàng</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card-stat" style="border-left-color:#c9902f;">
+            <div class="stat-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
+            <h3>@Model.TongSoPhieu</h3><p>Tổng phiếu đặt</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card-stat" style="border-left-color:#c9902f;">
+            <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+            <h3>@Model.SoPhieuChoXacNhan</h3><p>Chờ xác nhận</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card-stat" style="border-left-color:#4a7c59;">
+            <div class="stat-icon"><i class="bi bi-check-circle-fill"></i></div>
+            <h3>@Model.SoPhieuDaXacNhan</h3><p>Đã xác nhận</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card-stat" style="border-left-color:#a4333f;">
+            <div class="stat-icon"><i class="bi bi-fire"></i></div>
+            <h3>@Model.SoBanDangSuDung</h3><p>Bàn đang sử dụng</p>
+        </div>
+    </div>
+</div>
+
+<div class="chip mb-4"><i class="bi bi-trophy-fill"></i>&nbsp; Bàn có số lượt đặt nhiều nhất: <b>&nbsp;@(Model.BanNhieuLuotDatNhat ?? "Chưa có dữ liệu")</b></div>
+
+<h4 class="section-title">Biểu đồ thống kê</h4>
+<div class="row g-4 mb-4">
+    <div class="col-lg-6">
+        <div class="card p-4">
+            <h6 class="mb-3"><i class="bi bi-pie-chart-fill me-1"></i> Số bàn theo trạng thái</h6>
+            <canvas id="chartBanTrangThai" height="220"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-4">
+            <h6 class="mb-3"><i class="bi bi-pie-chart-fill me-1"></i> Số bàn theo loại</h6>
+            <canvas id="chartBanLoai" height="220"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-4">
+            <h6 class="mb-3"><i class="bi bi-bar-chart-fill me-1"></i> Lượt đặt theo trạng thái phiếu</h6>
+            <canvas id="chartPhieuTrangThai" height="220"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-4">
+            <h6 class="mb-3"><i class="bi bi-graph-up me-1"></i> Lượt đặt theo tháng</h6>
+            <canvas id="chartTheoThang" height="220"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-4">
+            <h6 class="mb-3"><i class="bi bi-bar-chart-steps me-1"></i> Top 10 bàn được đặt nhiều nhất</h6>
+            <canvas id="chartTopBan" height="240"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-4">
+            <h6 class="mb-3"><i class="bi bi-bar-chart-steps me-1"></i> Top 10 khách hàng đặt bàn nhiều nhất</h6>
+            <canvas id="chartTopKhach" height="240"></canvas>
+        </div>
+    </div>
+</div>
+
+<h4 class="section-title">Bảng chi tiết</h4>
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h6 class="px-2 pt-1"><i class="bi bi-tags-fill me-1"></i>Số lượt đặt theo loại bàn</h6>
+            <table class="table table-elegant mb-0"><tbody>
+            @foreach (var x in Model.LuotDatTheoLoaiBan)
+            { <tr><td>@x.Nhan</td><td class="text-end fw-bold">@x.SoLuong</td></tr> }
+            </tbody></table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h6 class="px-2 pt-1"><i class="bi bi-journal-check me-1"></i>Số phiếu theo trạng thái</h6>
+            <table class="table table-elegant mb-0"><tbody>
+            @foreach (var x in Model.PhieuTheoTrangThai)
+            { <tr><td>@x.Nhan</td><td class="text-end fw-bold">@x.SoLuong</td></tr> }
+            </tbody></table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+    const colorPalette = ['#6b1e2b', '#c9a15a', '#4a7c59', '#a4333f', '#c9902f', '#7a2534', '#e8d5a9', '#355c40', '#8a5a2b', '#3b2a2e'];
+    Chart.defaults.font.family = "'Inter', sans-serif";
+
+    function makePie(id, labels, data) {
+        new Chart(document.getElementById(id), {
+            type: 'doughnut',
+            data: { labels: labels, datasets: [{ data: data, backgroundColor: colorPalette, borderWidth: 2, borderColor: '#fff' }] },
+            options: { plugins: { legend: { position: 'bottom' } } }
+        });
+    }
+    function makeBar(id, labels, data, horizontal) {
+        new Chart(document.getElementById(id), {
+            type: 'bar',
+            data: { labels: labels, datasets: [{ label: 'Số lượng', data: data, backgroundColor: '#6b1e2b', borderRadius: 6 }] },
+            options: {
+                indexAxis: horizontal ? 'y' : 'x',
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    }
+    function makeLine(id, labels, data) {
+        new Chart(document.getElementById(id), {
+            type: 'line',
+            data: { labels: labels, datasets: [{ label: 'Lượt đặt', data: data, borderColor: '#c9a15a', backgroundColor: 'rgba(201,161,90,0.2)', fill: true, tension: 0.35 }] },
+            options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+        });
+    }
+
+    makePie('chartBanTrangThai',
+        @Json.Serialize(Model.BanTheoTrangThai.Select(x => x.Nhan)),
+        @Json.Serialize(Model.BanTheoTrangThai.Select(x => x.SoLuong)));
+
+    makePie('chartBanLoai',
+        @Json.Serialize(Model.BanTheoLoai.Select(x => x.Nhan)),
+        @Json.Serialize(Model.BanTheoLoai.Select(x => x.SoLuong)));
+
+    makeBar('chartPhieuTrangThai',
+        @Json.Serialize(Model.PhieuTheoTrangThai.Select(x => x.Nhan)),
+        @Json.Serialize(Model.PhieuTheoTrangThai.Select(x => x.SoLuong)), false);
+
+    makeLine('chartTheoThang',
+        @Json.Serialize(Model.LuotDatTheoThang.Select(x => x.Nhan)),
+        @Json.Serialize(Model.LuotDatTheoThang.Select(x => x.SoLuong)));
+
+    makeBar('chartTopBan',
+        @Json.Serialize(Model.LuotDatTheoBan.Select(x => x.Nhan)),
+        @Json.Serialize(Model.LuotDatTheoBan.Select(x => x.SoLuong)), true);
+
+    makeBar('chartTopKhach',
+        @Json.Serialize(Model.LuotDatTheoKhachHang.Select(x => x.Nhan)),
+        @Json.Serialize(Model.LuotDatTheoKhachHang.Select(x => x.SoLuong)), true);
+</script>
+}

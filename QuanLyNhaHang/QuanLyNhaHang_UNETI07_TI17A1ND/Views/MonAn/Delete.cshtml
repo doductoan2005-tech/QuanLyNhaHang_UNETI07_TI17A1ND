@@ -1,0 +1,11 @@
+@model MonAn
+@{ ViewData["Title"] = "Xóa món ăn"; }
+<h3 class="section-title text-danger">Xóa món ăn</h3>
+<div class="card p-4 col-lg-7">
+    <p>Bạn có chắc chắn muốn xóa món <b>@Model.TenMon</b> không?</p>
+    <form asp-action="Delete" asp-route-id="@Model.MaMon" method="post">
+        <input type="hidden" asp-for="MaMon" />
+        <button type="submit" class="btn btn-danger"><i class="bi bi-trash me-1"></i>Xác nhận xóa</button>
+        <a asp-action="Index" class="btn btn-outline-dark">Hủy</a>
+    </form>
+</div>

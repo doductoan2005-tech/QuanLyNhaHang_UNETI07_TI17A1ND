@@ -1,0 +1,23 @@
+@model LoaiBan
+@{ ViewData["Title"] = "Thêm loại bàn"; }
+<h3 class="section-title">Thêm loại bàn</h3>
+<div class="card p-4 col-lg-7">
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="mb-3">
+            <label asp-for="TenLoaiBan" class="form-label"></label>
+            <input asp-for="TenLoaiBan" class="form-control" />
+            <span asp-validation-for="TenLoaiBan" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="MoTa" class="form-label"></label>
+            <textarea asp-for="MoTa" class="form-control" rows="3"></textarea>
+        </div>
+        <div class="form-check form-switch mb-4">
+            <input asp-for="TrangThai" class="form-check-input" />
+            <label asp-for="TrangThai" class="form-check-label"></label>
+        </div>
+        <button type="submit" class="btn btn-dark"><i class="bi bi-check-lg me-1"></i>Lưu</button>
+        <a asp-action="Index" class="btn btn-outline-dark">Hủy</a>
+    </form>
+</div>

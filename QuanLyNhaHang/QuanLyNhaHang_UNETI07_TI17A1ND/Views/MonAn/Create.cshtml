@@ -1,0 +1,33 @@
+@model MonAn
+@{ ViewData["Title"] = "Thêm món ăn"; }
+<h3 class="section-title">Thêm món ăn</h3>
+<div class="card p-4 col-lg-7">
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="mb-3"><label asp-for="TenMon" class="form-label"></label><input asp-for="TenMon" class="form-control" /><span asp-validation-for="TenMon" class="text-danger"></span></div>
+        <div class="mb-3"><label asp-for="LoaiMon" class="form-label"></label><input asp-for="LoaiMon" class="form-control" placeholder="Khai vị / Món chính / Tráng miệng / Đồ uống..." /><span asp-validation-for="LoaiMon" class="text-danger"></span></div>
+        <div class="mb-3">
+            <label for="anhMonFile" class="form-label">Ảnh món ăn</label>
+            <input id="anhMonFile" name="anhMonFile" type="file" class="form-control" accept=".jpg,.jpeg,.png,.webp" />
+            <small class="text-muted">JPG, PNG hoặc WebP; tối đa 5 MB.</small>
+            <div><span class="text-danger">@Html.ValidationMessage("AnhMonFile")</span></div>
+            <img id="anhMonPreview" alt="Xem trước ảnh món" class="mt-2" style="display:none; width:180px; height:140px; object-fit:cover; border-radius:8px;" />
+        </div>
+        <div class="mb-3"><label asp-for="DonGia" class="form-label"></label>
+            <div class="input-group"><input asp-for="DonGia" type="number" step="1000" class="form-control" /><span class="input-group-text">đ</span></div>
+            <span asp-validation-for="DonGia" class="text-danger"></span>
+        </div>
+        <div class="mb-3"><label asp-for="MoTa" class="form-label"></label><textarea asp-for="MoTa" class="form-control" rows="3"></textarea></div>
+        <div class="mb-4"><label asp-for="TrangThai" class="form-label"></label><select asp-for="TrangThai" asp-items="Html.GetEnumSelectList<TrangThaiMon>()" class="form-select"></select></div>
+        <button type="submit" class="btn btn-dark"><i class="bi bi-check-lg me-1"></i>Lưu</button>
+        <a asp-action="Index" class="btn btn-outline-dark">Hủy</a>
+    </form>
+</div>
+<script>
+    document.getElementById('anhMonFile').addEventListener('change', function () {
+        const preview = document.getElementById('anhMonPreview');
+        const file = this.files[0];
+        preview.style.display = file ? 'block' : 'none';
+        if (file) preview.src = URL.createObjectURL(file);
+    });
+</script>

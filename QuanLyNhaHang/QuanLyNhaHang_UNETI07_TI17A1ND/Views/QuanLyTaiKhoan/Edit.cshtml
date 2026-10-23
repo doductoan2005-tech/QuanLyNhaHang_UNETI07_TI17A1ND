@@ -1,0 +1,48 @@
+@* Họ và tên : VU CONG VINH
+   Mã sinh viên : 23203100012
+   Nội dung thực hiện: Sửa tài khoản *@
+@model TaiKhoanVM
+@{ ViewData["Title"] = "Sửa tài khoản"; }
+<h3 class="section-title">Sửa tài khoản</h3>
+<div class="card p-4 col-lg-7">
+    <form asp-action="Edit" asp-route-id="@Model.MaTaiKhoan" method="post">
+        <input type="hidden" asp-for="MaTaiKhoan" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <label asp-for="TenDangNhap" class="form-label"></label>
+            <input asp-for="TenDangNhap" class="form-control" readonly />
+        </div>
+        <div class="mb-3">
+            <label asp-for="MatKhau" class="form-label">Mật khẩu mới</label>
+            <input asp-for="MatKhau" class="form-control" placeholder="Để trống nếu không đổi" />
+            <span asp-validation-for="MatKhau" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="HoTen" class="form-label"></label>
+            <input asp-for="HoTen" class="form-control" />
+            <span asp-validation-for="HoTen" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Vai trò</label>
+            <input class="form-control" value="@(Model.VaiTro == VaiTro.Admin ? "Admin" : "Khách hàng")" readonly />
+        </div>
+        <div class="mb-4">
+            <label asp-for="TrangThai" class="form-label"></label>
+            <select asp-for="TrangThai" class="form-select" asp-items="@(new SelectList(new[] { new { V = true, T = "Hoạt động" }, new { V = false, T = "Khóa" } }, "V", "T", Model.TrangThai))"></select>
+            <span asp-validation-for="TrangThai" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-dark"><i class="bi bi-check-lg me-1"></i>Cập nhật</button>
+        <a asp-action="Index" class="btn btn-outline-dark">Hủy</a>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@4.0.0/dist/jquery.validate.unobtrusive.min.js"></script>
+}
