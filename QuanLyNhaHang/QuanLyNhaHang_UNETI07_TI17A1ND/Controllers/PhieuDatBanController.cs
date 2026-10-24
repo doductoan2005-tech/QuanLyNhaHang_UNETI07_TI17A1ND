@@ -101,10 +101,7 @@ namespace QuanLyNhaHang.Controllers
 
             return View(phieu);
         }
-
-        // =========================================================
         // ================  PHÍA ADMIN  ==========================
-        // =========================================================
 
         [RequireAdmin]
         public IActionResult Index(string? tenKhach, string? tenBan, TrangThaiPhieu? trangThai, DateTime? ngaySuDung)
