@@ -1,3 +1,6 @@
+// Họ và tên: Trần Tuấn Sơn (Sinh viên 2)
+// Mã sinh viên: 23203100043
+// Nội dung thực hiện: Danh sách bàn ăn
 namespace QuanLyNhaHang.Models
 {
     // ViewModel cho danh sách bàn ăn: giữ điều kiện Tìm kiếm + Lọc + Sắp xếp + Phân trang
