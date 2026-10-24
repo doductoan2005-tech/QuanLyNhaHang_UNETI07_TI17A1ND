@@ -235,10 +235,8 @@ namespace QuanLyNhaHang.Controllers
             TempData["ThongBao"] = "Đã hoàn tất lượt sử dụng bàn.";
             return RedirectToAction(nameof(Index));
         }
+        // ==========  KIỂM TRA NGHIỆP VỤ ĐẶT BÀN  ================
 
-        // =========================================================
-        // ==========  KIỂM TRA NGHIỆP VỤ ĐẶT BÀN  =================
-        // =========================================================
         private void KiemTraNghiepVuDatBan(DateTime ngaySuDung, TimeSpan gioBatDau, TimeSpan gioKetThuc,
             int soNguoi, BanAn? ban, KhachHang? khachHang, int? maPhieuDangSua)
         {
