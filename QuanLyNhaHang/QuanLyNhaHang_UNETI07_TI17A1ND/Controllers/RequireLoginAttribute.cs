@@ -1,3 +1,6 @@
+// Họ và tên: Vũ Công Vinh (Sinh viên 1)
+// Mã sinh viên: 23203100012
+// Nội dung thực hiện: Entity Tài khoản - Đăng nhập - Phân quyền
 // Nội dung thực hiện: Filter kiểm tra đã đăng nhập hay chưa (dựa vào Session)
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
