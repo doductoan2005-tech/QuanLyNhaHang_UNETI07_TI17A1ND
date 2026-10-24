@@ -1,4 +1,6 @@
-
+// Họ và tên: Phạm Ngọc Hưng (Sinh viên 3)
+// Mã sinh viên: 23203100037
+// Nội dung thực hiện: Entity Datban
 using System.ComponentModel.DataAnnotations;
 
 namespace QuanLyNhaHang.Models
