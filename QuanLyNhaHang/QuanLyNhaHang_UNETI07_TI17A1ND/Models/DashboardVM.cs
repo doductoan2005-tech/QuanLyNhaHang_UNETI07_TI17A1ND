@@ -1,3 +1,6 @@
+// Họ và tên: Đỗ Đức Toàn (Sinh viên 4)
+// Mã sinh viên: 23203100077
+// Nội dung thực hiện: DashBoard ViewModel
 namespace QuanLyNhaHang.Models
 {
     public class DashboardVM
