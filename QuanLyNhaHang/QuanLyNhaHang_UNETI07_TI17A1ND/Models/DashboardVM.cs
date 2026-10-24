@@ -10,7 +10,7 @@ namespace QuanLyNhaHang.Models
         public int SoPhieuChoXacNhan { get; set; }
         public int SoPhieuDaXacNhan { get; set; }
         public int SoBanDangSuDung { get; set; }
-
+        
         public List<ThongKeItem> BanTheoLoai { get; set; } = new();
         public List<ThongKeItem> BanTheoTrangThai { get; set; } = new();
         public List<ThongKeItem> PhieuTheoTrangThai { get; set; } = new();
