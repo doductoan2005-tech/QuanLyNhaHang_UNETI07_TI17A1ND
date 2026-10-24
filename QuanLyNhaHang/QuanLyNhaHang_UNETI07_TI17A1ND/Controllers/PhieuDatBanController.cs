@@ -12,9 +12,7 @@ namespace QuanLyNhaHang.Controllers
         private readonly ApplicationDbContext _db;
         public PhieuDatBanController(ApplicationDbContext db) => _db = db;
 
-        // =========================================================
         // ============  PHÍA KHÁCH HÀNG  =========================
-        // =========================================================
 
         [RequireLogin, HttpGet]
         public IActionResult Create(int? maBan)
