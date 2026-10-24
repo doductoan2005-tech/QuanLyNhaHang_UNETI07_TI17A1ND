@@ -37,7 +37,6 @@ namespace QuanLyNhaHang.Models
         [ForeignKey(nameof(MaBan))]
         public BanAn? BanAn { get; set; }
 
-        // Do hệ thống tự xác định, không cho khách hàng nhập
         [Display(Name = "Ngày đặt")]
         public DateTime NgayDat { get; set; } = DateTime.Now;
 
